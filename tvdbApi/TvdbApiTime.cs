@@ -13,12 +13,14 @@ namespace tvdbApi
         [XmlArray("Series"), XmlArrayItem(ElementName = "Series", Type = typeof(uint))]
         public uint[] Series { get; set; }
 
-        public TvdbApiTime TvdbServerTime()
+        public static TvdbApiTime TvdbServerTime()
         {
-            return TvdbApiRequest.PerformApiRequestAndDeserialize<TvdbApiTime>(TvdbApiMethods.Updates());
+            return TvdbApiRequest.PerformApiRequestAndDeserialize<TvdbApiTime>(GetUpdateUrl());
         }
 
-
-
+        private static string GetUpdateUrl()
+        {
+            return "Updates.php?type=none";
+        }
     }
 }

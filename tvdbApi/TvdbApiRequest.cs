@@ -1,41 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
-using System.Net.Mime;
 using System.Reflection;
 using System.Text;
 using System.Xml.Serialization;
 
 namespace tvdbApi
 {
-    public class TvdbApiMethods
-    {
-        public static string ApiKey { get; set; }
-        public static string GetSeries(string seriesName)
-        {
-            return "GetSeries.php?seriesname=" + seriesName;
-        }
-
-        public static string Updates(uint time = 0)
-        {
-            return "Updates.php?type=" + ((time != 0) ? "series&time=" + time : "none");
-        }
-
-        public static string GetExtendedSeries(uint id)
-        {
-            return ApiKey + "/series/" + id + "/all/en.xml";
-        }
-    }
-
     public class TvdbApiRequest
     {
+        private static readonly Dictionary<string, object> RuntimeApiCache = new Dictionary<string, object>();
+
         public static bool UseCache { get; set; }
-        private static string _cachePath = Assembly.GetExecutingAssembly().Location;
-        public static string CachePath
-        {
-            get { return _cachePath; }
-            set { _cachePath = value; }
-        }
 
         private const string MirrorPath = "http://thetvdb.com/api/";
         private static string _userAgent = "TvdbRequestManager/2.1 (C#, part of TitleCleaner, like Gecko)";
@@ -47,7 +25,7 @@ namespace tvdbApi
 
         private static CookieContainer _cookieContainer = new CookieContainer();
 
-        protected static Stream GetStreamForUrl(string url)
+        protected static Stream PerformApiRequest(string url)
         {
             var webRequest = (HttpWebRequest) WebRequest.Create(MirrorPath + url);
             webRequest.UserAgent = UserAgent;
@@ -75,22 +53,33 @@ namespace tvdbApi
             return stream;
         }
 
-        protected static Stream GetStreamFromFile(string url)
-        {
-            return new FileStream(url, FileMode.Open);
-        }
-
         public static T PerformApiRequestAndDeserialize<T>(string url)
         {
-            var stream = PerformApiRequest(url);
-            var ser = new XmlSerializer(typeof(T));
-            var deserialised = (T)ser.Deserialize(stream);
-            return deserialised;
-        }
+            try
+            {
+                // Retreive previous api request from the cache
+                if (UseCache && RuntimeApiCache.ContainsKey(url))
+                {
+                    return (T) RuntimeApiCache[url];
+                }
 
-        public static Stream PerformApiRequest(string url)
-        {
-            
+                // Perform api request and deserialize
+                var stream = PerformApiRequest(url);
+                var ser = new XmlSerializer(typeof(T));
+                var deserialized = (T)ser.Deserialize(stream);
+
+                // Add to cache if cache is enabled
+                if (UseCache)
+                {
+                    RuntimeApiCache.Add(url, deserialized);
+                }
+
+                return deserialized;
+            }
+            catch (Exception)
+            {
+                return default(T);
+            }
         }
     }
 }

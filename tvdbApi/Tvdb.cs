@@ -1,24 +1,23 @@
-﻿using System;
-using System.Xml.Serialization;
-
-namespace tvdbApi
+﻿namespace tvdbApi
 {
     internal class Tvdb
     {
-        public string ApiKey
+        protected string ApiKey
         {
-            get { return TvdbApiMethods.ApiKey; }
-            protected set { TvdbApiMethods.ApiKey = value; }
+            set { TvdbDetailedSeries.ApiKey = value; }
         }
+
+        public TvdbApiTime ServerTime { get; protected set; }
 
         public Tvdb(string apiKey)
         {
             ApiKey = apiKey;
+            ServerTime = TvdbApiTime.TvdbServerTime();
         }
 
         public TvdbSeries[] Search(string series)
         {
-            return TvdbSeries.GetTvdbSeriesSearch(series);
+            return TvdbSeries.GetTvdbSeriesSearch(series, ServerTime);
         }
     }
 }

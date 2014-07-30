@@ -1,5 +1,4 @@
-﻿using System;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace tvdbApi
 {
@@ -9,14 +8,16 @@ namespace tvdbApi
     {
         protected TvdbDetailedSeries() { }
 
+        public static string ApiKey { set; protected get; }
+
         public static TvdbDetailedSeries GetDetailedSeries(uint id)
         {
-            var ser = new XmlSerializer(typeof(TvdbDetailedSeries));
-            var stream = TvdbApiRequest.PerformApiRequest(TvdbApiMethods.GetExtendedSeries(id));
-            if (stream == null) throw new NullReferenceException("Extended series request returned nothing.");
-            var detailed = (TvdbDetailedSeries)ser.Deserialize(stream);
-            stream.Close();
-            return detailed;
+            return TvdbApiRequest.PerformApiRequestAndDeserialize<TvdbDetailedSeries>(GetExtendedSeriesUrl(id, ApiKey));
+        }
+
+        private static string GetExtendedSeriesUrl(uint id, string apiKey)
+        {
+            return apiKey + "/series/" + id + "/all/en.xml";
         }
 
         [XmlElement("Series")]
