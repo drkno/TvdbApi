@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Text;
 using System.Xml.Serialization;
 
 namespace tvdbApi
 {
+    /// <summary>
+    /// Class to manage requests to the API and deserialise requests.
+    /// </summary>
     public class TvdbApiRequest
     {
+        // Dictionary to store requests if caching is enabled. Will reduce API usage for repetitive calls.
         private static readonly Dictionary<string, object> RuntimeApiCache = new Dictionary<string, object>();
 
         public static bool UseCache { get; set; }
@@ -27,6 +30,7 @@ namespace tvdbApi
 
         protected static Stream PerformApiRequest(string url)
         {
+            Debug.WriteLine("-> TvdbApiRequest::PerformApiRequest url=\"" + url + "\" Called");
             var webRequest = (HttpWebRequest) WebRequest.Create(MirrorPath + url);
             webRequest.UserAgent = UserAgent;
             webRequest.AutomaticDecompression = DecompressionMethods.Deflate |
@@ -45,8 +49,10 @@ namespace tvdbApi
                 }
                 var reader = new StreamReader(responseStream);
                 var text = reader.ReadToEnd();
+                Debug.WriteLine("---- Response ----\n" + text + "\n----   Halt   ----");
                 reader.Close();
-                stream.Write(Encoding.UTF8.GetBytes(text), 0, text.Length);
+                var bytes = Encoding.UTF8.GetBytes(text);
+                stream.Write(bytes, 0, bytes.Length);
             }
             _cookieContainer = webRequest.CookieContainer;
             stream.Position = 0;

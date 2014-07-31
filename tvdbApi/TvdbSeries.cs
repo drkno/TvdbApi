@@ -1,22 +1,24 @@
-﻿using System.Xml.Serialization;
+﻿using System;
+using System.Xml.Serialization;
 
 namespace tvdbApi
 {
-    [XmlType(AnonymousType = true)]
+    [Serializable]
+    [XmlType("Series", AnonymousType = true)]
     [XmlRoot(Namespace = "", IsNullable = false)]
     public class TvdbSeries : TvdbSeriesCommon
     {
         protected TvdbSeries(){}
 
         [XmlType(AnonymousType = true)]
-        [XmlRoot(Namespace = "", IsNullable = false, ElementName = "Data")]
-        protected class SeriesSearch
+        [XmlRoot(ElementName = "Data", Namespace = "", IsNullable = false)]
+        public class SeriesSearch
         {
-            [XmlArray("Series"), XmlArrayItem(ElementName = "Series", Type = typeof(TvdbSeries))]
+            [XmlElement("Series")]
             public TvdbSeries[] Series;
         }
 
-        public static TvdbSeries[] GetTvdbSeriesSearch(string series, TvdbApiTime serverTime)
+        public static TvdbSeries[] GetTvdbSeriesSearch(string series)
         {
             series = series.ToLower().Trim();
             var seriesSearch = TvdbApiRequest.PerformApiRequestAndDeserialize<SeriesSearch>(GetSeriesUrl(series));

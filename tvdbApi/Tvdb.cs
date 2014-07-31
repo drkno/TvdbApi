@@ -2,7 +2,11 @@
 
 namespace tvdbApi
 {
-    internal class Tvdb
+    /// <summary>
+    /// Class to help with the usage of the various TVDB Api classes.
+    /// Not strictly required but useful.
+    /// </summary>
+    public class Tvdb
     {
         /// <summary>
         /// Store the API key in an appropriate location

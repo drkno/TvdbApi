@@ -10,8 +10,6 @@ namespace tvdbApi
 
         [XmlElement("Time")]
         public uint Time { get; set; }
-        [XmlArray("Series"), XmlArrayItem(ElementName = "Series", Type = typeof(uint))]
-        public uint[] Series { get; set; }
 
         public static TvdbApiTime TvdbServerTime()
         {

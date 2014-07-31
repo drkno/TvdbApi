@@ -3,6 +3,8 @@ using System.Xml.Serialization;
 
 namespace tvdbApi
 {
+    [Serializable]
+    [XmlType("Series", AnonymousType = true)]
     public class TvdbSeriesCommon
     {
         protected TvdbSeriesCommon() { }
@@ -11,22 +13,21 @@ namespace tvdbApi
         public uint SeriesId { get; set; }
         [XmlElement(ElementName = "language")]
         public string Language { get; set; }
-        [XmlElement]
+        [XmlElement(ElementName = "SeriesName")]
         public string SeriesName { get; set; }
         [XmlElement(ElementName = "banner")]
         public string Banner { get; set; }
-        [XmlElement]
+        [XmlElement(ElementName = "Overview")]
         public string Overview { get; set; }
-        [XmlElement(DataType = "date")]
+        [XmlElement(DataType = "date", ElementName = "FirstAired")]
         public DateTime FirstAired { get; set; }
-        [XmlIgnore]
-        public bool FirstAiredSpecified { get; set; }
+        [XmlElement(ElementName = "Network")]
         public string Network { get; set; }
         [XmlElement(ElementName = "IMDB_ID")]
         public string ImdbId { get; set; }
         [XmlElement(ElementName = "zap2it_id")]
         public string Zap2ItId { get; set; }
-        [XmlElement(ElementName = "Id")]
+        [XmlElement(ElementName = "id")]
         public uint Id { get; set; }
     }
 }
