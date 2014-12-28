@@ -39,7 +39,7 @@ namespace tvdbApi
                 Console.WriteLine(ser.Description);
                 Console.WriteLine("---");
             }
-            details = series[0].GetDetailedInformation();
+            details = series[0].GetDetailedInformation(tvdb.ServerTime);
             Console.WriteLine(details.Episodes[0].Director);
             Console.WriteLine(details.Episodes[0].EpisodeName);
 
