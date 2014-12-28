@@ -41,11 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cache\TvdbCacheProvider.cs" />
+    <Compile Include="Cache\TvdbCacheType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tvdb.cs" />
     <Compile Include="TvdbApiTime.cs" />
     <Compile Include="TvdbDetailedSeries.cs" />
+    <Compile Include="TvdbEpisode.cs" />
     <Compile Include="TvdbSeries.cs" />
     <Compile Include="TvdbApiRequest.cs" />
     <Compile Include="TvdbSeriesCommon.cs" />
