@@ -8,8 +8,7 @@ namespace MediaFileParser.MediaTypes.TvFile.Tvdb
     /// <summary>
     /// Detailed series data.
     /// </summary>
-    [XmlType(AnonymousType = true)]
-    [XmlRoot("Data", Namespace = "", IsNullable = false)]
+    [XmlType(AnonymousType = true), XmlRoot("Data", Namespace = "", IsNullable = false)]
     public class TvdbDetailedSeries
     {
         /// <summary>
