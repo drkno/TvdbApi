@@ -35,7 +35,7 @@ namespace MediaFileParser.MediaTypes.TvFile.Tvdb
         /// <param name="series">Series to search for.</param>
         /// <param name="request">API request object to use.</param>
         /// <returns>An array of possible series.</returns>
-        public static TvdbSeries[] GetTvdbSeriesSearch(string series, ref TvdbApiRequest request)
+        public static TvdbSeries[] GetTvdbSeriesSearch(string series, TvdbApiRequest request)
         {
             Debug.WriteLine("-> TvdbSeries::GetTvdbSeriesSearch series=\"" + series + "\" request=\"" + request + "\" Called");
             series = series.ToLower().Trim();
@@ -60,10 +60,10 @@ namespace MediaFileParser.MediaTypes.TvFile.Tvdb
         /// </summary>
         /// <param name="request">API requester to use.</param>
         /// <returns>Detailed series information.</returns>
-        public TvdbDetailedSeries GetDetailedInformation(ref TvdbApiRequest request)
+        public TvdbDetailedSeries GetDetailedInformation(TvdbApiRequest request)
         {
             Debug.WriteLine("-> TvdbSeries::GetDetailedInformation request=\"" + request + "\" Called");
-            return TvdbDetailedSeries.GetDetailedSeries(TvdbId, ref request);
+            return TvdbDetailedSeries.GetDetailedSeries(TvdbId, request);
         }
     }
 }

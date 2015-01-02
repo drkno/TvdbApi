@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Xml.Serialization;
 using MediaFileParser.MediaTypes.TvFile.Tvdb;
 
 namespace tvdbApi
@@ -9,14 +7,6 @@ namespace tvdbApi
     {
         public static void Main()
         {
-            /*var stream = new FileStream(@"C:\Users\Matthew\Documents\Development\tvdbApi\tvdbApi\bin\Debug\detailed.xml", FileMode.Open);
-            var seri = new XmlSerializer(typeof(TvdbDetailedSeries));
-            var deserialized = (TvdbDetailedSeries)seri.Deserialize(stream);
-            stream.Close();
-
-            Console.WriteLine(deserialized);
-
-            return;*/
             // API Key for this program and the program it was
             // designed to be used as a part of (TitleCleaner) ONLY
             // If you use this program, get your own API key.
@@ -34,7 +24,7 @@ namespace tvdbApi
                 Console.WriteLine(ser.Description);
                 Console.WriteLine("---");
             }
-            var details = series[0].GetDetailedInformation(ref tvdb._tvdbApiRequest);
+            var details = series[0].GetDetailedInformation(tvdb.TvdbApiRequest);
             Console.WriteLine(string.Join(",", details.Episodes[0].Directors));
             Console.WriteLine(details.Episodes[0].EpisodeName);
 
@@ -49,7 +39,7 @@ namespace tvdbApi
                 Console.WriteLine(ser.Description);
                 Console.WriteLine("---");
             }
-            details = series[0].GetDetailedInformation(ref tvdb._tvdbApiRequest);
+            details = series[0].GetDetailedInformation(tvdb.TvdbApiRequest);
             Console.WriteLine(string.Join(",", details.Episodes[0].Directors));
             Console.WriteLine(details.Episodes[0].EpisodeName);
 

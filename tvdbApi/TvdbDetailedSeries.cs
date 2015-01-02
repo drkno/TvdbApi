@@ -8,7 +8,7 @@ namespace MediaFileParser.MediaTypes.TvFile.Tvdb
     /// <summary>
     /// Detailed series data.
     /// </summary>
-    [XmlType(AnonymousType = true), XmlRoot("Data", Namespace = "", IsNullable = false)]
+    [Serializable, XmlType(AnonymousType = true), XmlRoot("Data", Namespace = "", IsNullable = false)]
     public class TvdbDetailedSeries
     {
         /// <summary>
@@ -23,7 +23,7 @@ namespace MediaFileParser.MediaTypes.TvFile.Tvdb
         /// <param name="id">ID of series to get details for.</param>
         /// <param name="request">API request object to use.</param>
         /// <returns>Detailed series object.</returns>
-        public static TvdbDetailedSeries GetDetailedSeries(uint id, ref TvdbApiRequest request)
+        public static TvdbDetailedSeries GetDetailedSeries(uint id, TvdbApiRequest request)
         {
             Debug.WriteLine("-> TvdbDetailedSeries::GetDetailedSeries id=\"" + id + "\" request=\"" + request + "\" Called");
             var cacheKey = id + "~series";
@@ -69,7 +69,7 @@ namespace MediaFileParser.MediaTypes.TvFile.Tvdb
         /// <summary>
         /// Detailed series information.
         /// </summary>
-        [XmlType("Series", AnonymousType = true)]
+        [Serializable, XmlType("Series", AnonymousType = true)]
         public class TvdbSeriesExtended : TvdbSeriesCommon
         {
             /// <summary>

@@ -19,13 +19,27 @@ namespace MediaFileParser.MediaTypes.TvFile.Tvdb
         /// <summary>
         /// ID used by the TVDB to uniquely identify this TV Show series.
         /// </summary>
-        [XmlElement(ElementName = "seriesid")]
+        [XmlElement("SeriesID")]
         public uint SeriesId { get; set; }
+
+        /// <summary>
+        /// Sets the ID used by the TVDB to uniquely identify this TV Show series.
+        /// </summary>
+        [XmlElement("seriesid"), Obsolete("Used for compatibility with older XML files, use SeriesId instead.")]
+        public uint SeriesIdSetter { set { SeriesId = value; } }
+
         /// <summary>
         /// Language of the TV Show that this TVDB record refers to.
         /// </summary>
-        [XmlElement(ElementName = "language")]
+        [XmlElement(ElementName = "Language")]
         public string Language { get; set; }
+
+        /// <summary>
+        /// Language of the TV Show that this TVDB record refers to.
+        /// </summary>
+        [XmlElement("language"), Obsolete("Used for compatibility with older XML files, use Language instead.")]
+        public string LanguageSetter { set { Language = value; } }
+
         /// <summary>
         /// Name of the series.
         /// </summary>

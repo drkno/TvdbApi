@@ -13,14 +13,14 @@ namespace MediaFileParser.MediaTypes.TvFile.Tvdb
         /// <summary>
         /// API key used for API requests
         /// </summary>
-        public string ApiKey { get { return _tvdbApiRequest.ApiKey; } }
+        public string ApiKey { get { return TvdbApiRequest.ApiKey; } }
 
         /// <summary>
         /// Gets the type of cache that will be used for each consecutive lookup.
         /// </summary>
         public TvdbCacheType CacheType
         {
-            get { return _tvdbApiRequest.CacheProvider.CacheType; }
+            get { return TvdbApiRequest.CacheProvider.CacheType; }
         }
 
         /// <summary>
@@ -29,13 +29,13 @@ namespace MediaFileParser.MediaTypes.TvFile.Tvdb
         /// </summary>
         public string PersistentCacheLocation
         {
-            get { return _tvdbApiRequest.CacheProvider.PersistentCacheLocation; }
+            get { return TvdbApiRequest.CacheProvider.PersistentCacheLocation; }
         }
 
         /// <summary>
         /// Request object to use for each successive API call.
         /// </summary>
-        public TvdbApiRequest _tvdbApiRequest;
+        public TvdbApiRequest TvdbApiRequest { get; protected set; }
 
         /// <summary>
         /// Instantiates a new copy of the TVDB API helper class
@@ -49,7 +49,7 @@ namespace MediaFileParser.MediaTypes.TvFile.Tvdb
             // Create the cache
             var tvdbCacheProvider = new TvdbCacheProvider(cacheType, persistentCacheLocation);
             // Create request object
-            _tvdbApiRequest = new TvdbApiRequest(apiKey, tvdbCacheProvider);
+            TvdbApiRequest = new TvdbApiRequest(apiKey, tvdbCacheProvider);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace MediaFileParser.MediaTypes.TvFile.Tvdb
         public TvdbSeries[] Search(string series)
         {
             Debug.WriteLine("-> Tvdb::Search series=\"" + series + "\" Called");
-            return TvdbSeries.GetTvdbSeriesSearch(series, ref _tvdbApiRequest);
+            return TvdbSeries.GetTvdbSeriesSearch(series, TvdbApiRequest);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace MediaFileParser.MediaTypes.TvFile.Tvdb
         public TvdbDetailedSeries LookupId(uint id)
         {
             Debug.WriteLine("-> Tvdb::LookupId id=\"" + id + "\" Called");
-            return TvdbDetailedSeries.GetDetailedSeries(id, ref _tvdbApiRequest);
+            return TvdbDetailedSeries.GetDetailedSeries(id, TvdbApiRequest);
         }
 
         /// <summary>

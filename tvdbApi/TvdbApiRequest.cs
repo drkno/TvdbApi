@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Xml.Serialization;
 using MediaFileParser.MediaTypes.TvFile.Tvdb.Cache;

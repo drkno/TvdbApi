@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Xml.Serialization;
 using MediaFileParser.MediaTypes.TvFile.Tvdb.Cache;
@@ -8,8 +9,7 @@ namespace MediaFileParser.MediaTypes.TvFile.Tvdb
     /// <summary>
     /// Keep track of API time to check for updates.
     /// </summary>
-    [XmlType(AnonymousType = true)]
-    [XmlRoot(Namespace = "", IsNullable = false, ElementName = "Items")]
+    [Serializable, XmlType(AnonymousType = true), XmlRoot(Namespace = "", IsNullable = false, ElementName = "Items")]
     public class TvdbApiTime
     {
         /// <summary>
