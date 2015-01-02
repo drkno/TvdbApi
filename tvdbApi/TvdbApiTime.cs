@@ -1,35 +1,53 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Xml.Serialization;
 using MediaFileParser.MediaTypes.TvFile.Tvdb.Cache;
 
 namespace MediaFileParser.MediaTypes.TvFile.Tvdb
 {
+    /// <summary>
+    /// Keep track of API time to check for updates.
+    /// </summary>
     [XmlType(AnonymousType = true)]
     [XmlRoot(Namespace = "", IsNullable = false, ElementName = "Items")]
     public class TvdbApiTime
     {
+        /// <summary>
+        /// This class should not be instantiated.
+        /// </summary>
         protected TvdbApiTime() { }
 
-        [XmlElement("Time")]
+        /// <summary>
+        /// Unix epoch time of this API update.
+        /// </summary>
+        [XmlElement(ElementName = "Time")]
         public uint Time { get; set; }
 
-        [XmlElement("Episode")]
+        /// <summary>
+        /// Episodes that have changed since the specified epoch time.
+        /// </summary>
+        [XmlElement(ElementName = "Episode")]
         public List<uint> Episodes { get; set; }
 
-        [XmlElement("Series")]
+        /// <summary>
+        /// Series that have changed since the specified epoch time.
+        /// </summary>
+        [XmlElement(ElementName = "Series")]
         public List<uint> Series { get; set; }
 
-        public static TvdbApiTime TvdbServerTime(TvdbCacheType cacheType, uint previousTime = 0)
+        public static TvdbApiTime TvdbServerTime(TvdbApiRequest request, uint previousTime)
         {
-            var ut = cacheType == TvdbCacheType.None || previousTime == 0 ? UpdateType.Time : UpdateType.All;
-            var st = TvdbApiRequest.PerformApiRequestAndDeserialize<TvdbApiTime>(GetUpdateUrl(ut, previousTime));
-            st.Series.Sort();
-            st.Episodes.Sort();
+            Debug.WriteLine("-> TvdbApiTime::TvdbServerTime request=\"" + request + "\" previousTime=\"" + previousTime + " Called");
+            var ut = request.CacheProvider.CacheType == TvdbCacheType.None || previousTime == 0 ? UpdateType.Time : UpdateType.All;
+            var st = request.PerformApiRequestAndDeserialize<TvdbApiTime>(GetUpdateUrl(ut, previousTime), string.Empty, true, true);
+            if (st.Series != null) st.Series.Sort();
+            if (st.Episodes != null) st.Episodes.Sort();
             return st;
         }
 
         private static string GetUpdateUrl(UpdateType type, uint previousTime)
         {
+            Debug.WriteLine("-> TvdbApiTime::GetUpdateUrl type=\"" + type + "\" previousTime=\"" + previousTime + " Called");
             string t;
             switch (type)
             {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Xml.Serialization;
 
 namespace MediaFileParser.MediaTypes.TvFile.Tvdb
@@ -6,8 +7,7 @@ namespace MediaFileParser.MediaTypes.TvFile.Tvdb
     /// <summary>
     /// Common attributes returned from different API calls.
     /// </summary>
-    [Serializable]
-    [XmlType("Series", AnonymousType = true)]
+    [Serializable, ReadOnly(true), XmlType("Series", AnonymousType = true)]
     public class TvdbSeriesCommon
     {
         /// <summary>
@@ -15,21 +15,7 @@ namespace MediaFileParser.MediaTypes.TvFile.Tvdb
         /// not be called except in derived type.
         /// </summary>
         protected TvdbSeriesCommon() { }
-        /// <summary>
-        /// ID used by the TVDB to uniquely identify this TV Show.
-        /// </summary>
-        [XmlElement(ElementName = "id")]
-        public uint TvdbId { get; set; }
-        /// <summary>
-        /// ID used by the IMDB to uniquely identify this TV Show.
-        /// </summary>
-        [XmlElement(ElementName = "IMDB_ID")]
-        public string ImdbId { get; set; }
-        /// <summary>
-        /// ID used by the Zap2It to uniquely identify this TV Show.
-        /// </summary>
-        [XmlElement(ElementName = "zap2it_id")]
-        public string Zap2ItId { get; set; }
+
         /// <summary>
         /// ID used by the TVDB to uniquely identify this TV Show series.
         /// </summary>
@@ -58,12 +44,27 @@ namespace MediaFileParser.MediaTypes.TvFile.Tvdb
         /// <summary>
         /// Date that this TV Show first aired.
         /// </summary>
-        [XmlElement(DataType = "date", ElementName = "FirstAired")]
+        [XmlElement(ElementName = "FirstAired")]
         public DateTime FirstAired { get; set; }
         /// <summary>
         /// Network that created this TV Show.
         /// </summary>
         [XmlElement(ElementName = "Network")]
         public string Network { get; set; }
+        /// <summary>
+        /// ID used by the IMDB to uniquely identify this TV Show.
+        /// </summary>
+        [XmlElement(ElementName = "IMDB_ID")]
+        public string ImdbId { get; set; }
+        /// <summary>
+        /// ID used by the Zap2It to uniquely identify this TV Show.
+        /// </summary>
+        [XmlElement(ElementName = "zap2it_id")]
+        public string Zap2ItId { get; set; }
+        /// <summary>
+        /// ID used by the TVDB to uniquely identify this TV Show.
+        /// </summary>
+        [XmlElement(ElementName = "id")]
+        public uint TvdbId { get; set; }
     }
 }
