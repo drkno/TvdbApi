@@ -125,6 +125,9 @@ namespace MediaFileParser.MediaTypes.TvFile.Tvdb
         [XmlIgnore]
         public string[] Directors { get { return Director.Split('|'); } }
 
+        /// <summary>
+        /// Category that the current episode image falls in to (as a string).
+        /// </summary>
         [XmlElement(ElementName = "EpImgFlag")]
         public string EpisodeImageFlagString
         {
@@ -137,7 +140,7 @@ namespace MediaFileParser.MediaTypes.TvFile.Tvdb
         }
 
         /// <summary>
-        /// Category that the current episode falls in to. 
+        /// Category that the current episode image falls in to. Defaults to ImproperActionShot.
         /// </summary>
         [XmlIgnore]
         public TvdbEpisodeImageFlag EpisodeImageFlag { get; set; }

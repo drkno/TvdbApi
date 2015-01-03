@@ -35,6 +35,12 @@ namespace MediaFileParser.MediaTypes.TvFile.Tvdb
         [XmlElement(ElementName = "Series")]
         public List<uint> Series { get; set; }
 
+        /// <summary>
+        /// Gets the current TVDB epoch time.
+        /// </summary>
+        /// <param name="request">Request to use.</param>
+        /// <param name="previousTime">Previous time.</param>
+        /// <returns>A TvdbApiTime representation.</returns>
         public static TvdbApiTime TvdbServerTime(TvdbApiRequest request, uint previousTime)
         {
             Debug.WriteLine("-> TvdbApiTime::TvdbServerTime request=\"" + request + "\" previousTime=\"" + previousTime + " Called");
@@ -45,6 +51,12 @@ namespace MediaFileParser.MediaTypes.TvFile.Tvdb
             return st;
         }
 
+        /// <summary>
+        /// Determines the URL to use for retreiving the API time.
+        /// </summary>
+        /// <param name="type">Type of update to perform.</param>
+        /// <param name="previousTime">Time of previous updates.</param>
+        /// <returns>API url to update resource.</returns>
         private static string GetUpdateUrl(UpdateType type, uint previousTime)
         {
             Debug.WriteLine("-> TvdbApiTime::GetUpdateUrl type=\"" + type + "\" previousTime=\"" + previousTime + " Called");
@@ -60,11 +72,26 @@ namespace MediaFileParser.MediaTypes.TvFile.Tvdb
             return "Updates.php?type=" + t;
         }
 
+        /// <summary>
+        /// Types of update that can be performed.
+        /// </summary>
         private enum UpdateType
         {
+            /// <summary>
+            /// Gets current time.
+            /// </summary>
             Time,
+            /// <summary>
+            /// Gets current time and changed series/episodes since last time.
+            /// </summary>
             All,
+            /// <summary>
+            /// Gets current time and changed episodes since last time.
+            /// </summary>
             Episode,
+            /// <summary>
+            /// Gets current time and changed series since last time.
+            /// </summary>
             Series
         }
     }
